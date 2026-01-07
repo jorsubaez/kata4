@@ -1,8 +1,8 @@
 package software.ulpgc.kata4.application;
 
-import software.ulpgc.kata4.model.Movie;
-import software.ulpgc.kata4.viewmodel.Histogram;
-import software.ulpgc.kata4.viewmodel.HistogramBuilder;
+import software.ulpgc.kata4.architecture.model.Movie;
+import software.ulpgc.kata4.architecture.viewmodel.Histogram;
+import software.ulpgc.kata4.architecture.viewmodel.HistogramBuilder;
 
 import java.util.List;
 

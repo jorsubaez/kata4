@@ -1,6 +1,6 @@
 package software.ulpgc.kata4.application;
 
-import software.ulpgc.kata4.model.Movie;
+import software.ulpgc.kata4.architecture.model.Movie;
 
 public class TsvMovieParser {
     public static Movie from(String str) {

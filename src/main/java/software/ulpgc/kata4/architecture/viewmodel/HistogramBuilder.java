@@ -1,6 +1,6 @@
-package software.ulpgc.kata4.viewmodel;
+package software.ulpgc.kata4.architecture.viewmodel;
 
-import software.ulpgc.kata4.model.Movie;
+import software.ulpgc.kata4.architecture.model.Movie;
 
 import java.util.List;
 import java.util.function.Function;
