@@ -6,9 +6,8 @@ import software.ulpgc.kata4.architecture.model.Movie;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 public class RemoteStore implements Store {
@@ -21,7 +20,7 @@ public class RemoteStore implements Store {
     }
 
     @Override
-    public List<Movie> movies() {
+    public Stream<Movie> movies() {
         try {
             return loadAllFrom(new URL(RemoteUrl));
         } catch (IOException e) {
@@ -29,28 +28,21 @@ public class RemoteStore implements Store {
         }
     }
 
-    private List<Movie> loadAllFrom(URL url) throws IOException {
+    private Stream<Movie> loadAllFrom(URL url) throws IOException {
         return loadAllFrom(url.openConnection());
     }
 
-    private List<Movie> loadAllFrom(URLConnection connection) throws IOException {
+    private Stream<Movie> loadAllFrom(URLConnection connection) throws IOException {
         try (InputStream is = new GZIPInputStream(new BufferedInputStream(connection.getInputStream(), BufferSize))) {
             return loadAllFrom(is);
         }
     }
 
-    private List<Movie> loadAllFrom(InputStream inputStream) throws IOException {
+    private Stream<Movie> loadAllFrom(InputStream inputStream) throws IOException {
         return loadFrom(new BufferedReader(new InputStreamReader(inputStream)));
     }
 
-    private List<Movie> loadFrom(BufferedReader reader) throws IOException {
-        List<Movie> list = new ArrayList<>();
-        reader.readLine();
-        while (true) {
-            String line = reader.readLine();
-            if (line == null) break;
-            list.add(deserialize.apply(line));
-        }
-        return list;
+    private Stream<Movie> loadFrom(BufferedReader reader) throws IOException {
+        return reader.lines().skip(1).map(deserialize);
     }
 }
