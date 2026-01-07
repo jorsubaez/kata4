@@ -5,13 +5,27 @@ import software.ulpgc.kata4.architecture.viewmodel.Histogram;
 import software.ulpgc.kata4.architecture.viewmodel.HistogramBuilder;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        List<Movie> movies = new RemoteStore(TsvMovieParser::from).movies();
-        Histogram histogram = new HistogramBuilder(m -> (m.year() / 10) * 10).buildWith(movies);
-        for (int bin: histogram) {
-            System.out.println(bin + ": " + histogram.count(bin));
-        }
+        Desktop.create().display(histogram()).setVisible(true);
     }
+
+    private static Histogram histogram() {
+        return HistogramBuilder
+                .with(movies())
+                .tittle("Movies per year")
+                .x("Year")
+                .y("Count")
+                .legend("Movies")
+                .use(Movie::year);
+    }
+
+    private static Stream<Movie> movies() {
+        return new RemoteStore(TsvMovieParser::from)
+                .movies()
+                .limit(1000);
+    }
+
 }
