@@ -2,8 +2,8 @@ package software.ulpgc.kata4.architecture.io;
 
 import software.ulpgc.kata4.architecture.model.Movie;
 
-import java.util.List;
+import java.util.stream.Stream;
 
-public interface MovieLoader {
-    List<Movie> loadAll();
+public interface Store {
+    Stream<Movie> movies();
 }
