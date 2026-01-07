@@ -11,8 +11,6 @@ import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
 public class RemoteStore implements Store {
-    private static final String RemoteUrl = "https://datasets.imdbws.com/title.basics.tsv.gz";
-    private static final int BufferSize = 65536;
     private final Function<String, Movie> deserialize;
 
     public RemoteStore(Function<String, Movie> deserialize) {
@@ -22,27 +20,33 @@ public class RemoteStore implements Store {
     @Override
     public Stream<Movie> movies() {
         try {
-            return loadAllFrom(new URL(RemoteUrl));
+            return loadFrom(new URL("https://datasets.imdbws.com/title.basics.tsv.gz"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Stream<Movie> loadAllFrom(URL url) throws IOException {
-        return loadAllFrom(url.openConnection());
+    private Stream<Movie> loadFrom(URL url) throws IOException {
+        return loadFrom(url.openConnection());
     }
 
-    private Stream<Movie> loadAllFrom(URLConnection connection) throws IOException {
-        try (InputStream is = new GZIPInputStream(new BufferedInputStream(connection.getInputStream(), BufferSize))) {
-            return loadAllFrom(is);
-        }
+    private Stream<Movie> loadFrom(URLConnection connection) throws IOException {
+        return loadFrom(unzip(connection.getInputStream()));
     }
 
-    private Stream<Movie> loadAllFrom(InputStream inputStream) throws IOException {
-        return loadFrom(new BufferedReader(new InputStreamReader(inputStream)));
+    private InputStream unzip(InputStream inputStream) throws IOException {
+        return new GZIPInputStream(new BufferedInputStream(inputStream));
+    }
+
+    private Stream<Movie> loadFrom(InputStream inputStream) throws IOException {
+        return loadFrom(toReader(inputStream));
     }
 
     private Stream<Movie> loadFrom(BufferedReader reader) throws IOException {
         return reader.lines().skip(1).map(deserialize);
+    }
+
+    private BufferedReader toReader(InputStream inputStream) {
+        return new BufferedReader(new InputStreamReader(inputStream));
     }
 }
