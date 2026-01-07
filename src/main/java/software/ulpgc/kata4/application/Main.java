@@ -4,7 +4,6 @@ import software.ulpgc.kata4.architecture.model.Movie;
 import software.ulpgc.kata4.architecture.viewmodel.Histogram;
 import software.ulpgc.kata4.architecture.viewmodel.HistogramBuilder;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
@@ -15,7 +14,7 @@ public class Main {
     private static Histogram histogram() {
         return HistogramBuilder
                 .with(movies())
-                .tittle("Movies per year")
+                .title("Movies per year")
                 .x("Year")
                 .y("Count")
                 .legend("Movies")

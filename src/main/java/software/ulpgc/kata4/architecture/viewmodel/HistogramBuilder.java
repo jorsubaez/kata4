@@ -23,8 +23,8 @@ public class HistogramBuilder {
                 .filter(m->m.year() <= 2025);
     }
 
-    public HistogramBuilder tittle(String label) {
-        labels.put("tittle", label);
+    public HistogramBuilder title(String label) {
+        labels.put("title", label);
         return this;
     }
 

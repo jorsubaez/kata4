@@ -34,7 +34,7 @@ public class Desktop extends JFrame {
 
     private JFreeChart chartWith(Histogram histogram) {
         return ChartFactory.createHistogram(
-                histogram.tittle(),
+                histogram.title(),
                 histogram.x(),
                 histogram.y(),
                 datasetWith(histogram)

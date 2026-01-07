@@ -26,8 +26,8 @@ public class Histogram implements Iterable<Integer> {
         return value.keySet().iterator();
     }
 
-    public String tittle() {
-        return labels.getOrDefault("tittle", "");
+    public String title() {
+        return labels.getOrDefault("title", "");
     }
 
     public String x() {
